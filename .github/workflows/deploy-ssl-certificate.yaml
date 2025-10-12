@@ -42,5 +42,3 @@ jobs:
           key-file: key.pem
           certificate-name: ${{ env.WILDCARD_DOMAIN }}
           cdn-domains: ${{ env.CDN_DOMAINS }}
-          timeout: 10000
-          retry: 3
