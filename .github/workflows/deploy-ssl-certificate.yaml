@@ -28,6 +28,7 @@ jobs:
         with:
           version: 3.0.2
           domains: ${{ env.WILDCARD_DOMAIN }}
+          append-wildcard: false
           arguments: --server letsencrypt --dns dns_ali
           output-fullchain: fullchain.pem
           output-key: key.pem
