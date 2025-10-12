@@ -1,0 +1,45 @@
+name: Deploy SSL Certificates
+on:
+  schedule:
+    - cron: '0 0 */3 * *'
+  workflow_dispatch:
+
+env:
+  Ali_Key: ${{ secrets.ALI_KEY }}
+  Ali_Secret: ${{ secrets.ALI_SECRET }}
+  WILDCARD_DOMAIN: "*.terraria.ink"
+  CDN_DOMAINS: |
+    docs.terraria.ink
+    raw.terraria.ink
+    blog.terraria.ink
+
+
+jobs:
+  issue-ssl-certificates:
+    name: Issue SSL Certificates
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Issue SSL Certificate
+        uses: Menci/acme@v2
+        with:
+          version: 3.0.2
+          domains: ${{ env.WILDCARD_DOMAIN }}
+          arguments: --server letsencrypt --dns dns_ali
+          output-fullchain: fullchain.pem
+          output-key: key.pem
+   
+      - name: Deploy to Aliyun CDN
+        uses: Menci/deploy-certificate-to-aliyun@beta-v1
+        with:
+          access-key-id: ${{ env.Ali_Key }}
+          access-key-secret: ${{ env.Ali_Secret }}
+          fullchain-file: fullchain.pem
+          key-file: key.pem
+          certificate-name: ${{ env.WILDCARD_DOMAIN }}
+          cdn-domains: ${{ env.CDN_DOMAINS }}
+          timeout: 10000
+          retry: 3
