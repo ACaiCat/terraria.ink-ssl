@@ -34,7 +34,7 @@ jobs:
           output-key: key.pem
    
       - name: Deploy to Aliyun CDN
-        uses: Menci/deploy-certificate-to-aliyun@beta-v1
+        uses: Menci/deploy-certificate-to-aliyun@main
         with:
           access-key-id: ${{ env.Ali_Key }}
           access-key-secret: ${{ env.Ali_Secret }}
