@@ -43,4 +43,4 @@ jobs:
           key-file: key.pem
           certificate-name: ${{ env.WILDCARD_DOMAIN }}
           cdn-domains: ${{ env.CDN_DOMAINS }}
-          use-intl-endpoint: true
+          use-intl-endpoint: false
